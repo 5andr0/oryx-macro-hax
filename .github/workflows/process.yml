@@ -26,6 +26,7 @@ jobs:
         uses: 5andr0/QMK-compile@main
         with:
           path: layout_src
+          branch: firmware20
           artifacts_path: ${{ github.workspace }}/artifacts
           keymap: custom_macro_enhanced
           keyboard: moonlander
