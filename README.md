@@ -10,7 +10,7 @@ This hack is a post-processor that'll take your raw "Source" Oryx configuration 
 
 To compile the firmware, setup the [ZSA QMK Fork with guide referenced](https://github.com/zsa/qmk_firmware)
 
-`qmk setup zsa/qmk_firmware -b firmware20`
+`qmk setup zsa/qmk_firmware -b firmware21`
 
 Install on the command line (with Node.js installed) using:
 ```
@@ -23,11 +23,11 @@ npm install
 
 ## 1. Configuring with Oryx
 
-Configure in Oryx just as you normally would, except make sure each macro you'd like to extend beyond 4 button presses is a unique set of alphanumeric button presses that act as a unique ID to find in post-processing.  Let's say you want a keyboard to type "whale", you could just write a macro with keys "whal" or get really detailed with numeric IDs and type "1234".  Remember these IDs for later.  DO NOT use any key modifiers, custom delays or non-alphanumeric keys in your extendable macros, you can specify those yourself later.
+Configure in Oryx just as you normally would, except make sure each macro you'd like to extend beyond 5 button presses is a unique set of alphanumeric button presses that act as a unique ID to find in post-processing.  Let's say you want a keyboard to type "whale", you could just write a macro with keys "whal" or get really detailed with numeric IDs and type "12345".  Remember these IDs for later.  DO NOT use any key modifiers, custom delays or non-alphanumeric keys in your extendable macros, you can specify those yourself later.
 
 When done, take a note of the `layout hash ID` in the URL or download the source manually into the `keymap_src` folder.
 
-It is also recommended to `git branch <your layout name>` and gitignore allowlist `!layout_src/<your layout name>`.
+It is also recommended to `git branch <your layout name>`.
 
 ## 2. Create a mapping in this script
 
@@ -38,9 +38,9 @@ cd ~/qmk_firmware/ergodox-macro-hax
 npm run get -- <oryxLayoutHashId>
 ```
 
-Grab my-illicit-macros.ts and change it to what you need, starting with the absolute directory path `SOURCE_DIR` pointed to the unzipped directory that contains the "keymap.c" file (NOT usually in the root directory!) you noted in step 1.  Now open my-illicit-macros.ts and modify to match your configuration.
+Grab my-macros.ts and change it to what you need. If you already downloaded your keymap and skipped `npm run get`, you have to unzip the keymap folder contents which contain keymap.c into ./layout_src or point the env var LAYOUT_DIR to the dir containing keymap.c. `npm run get` does this for you
 
-Here's an example of creating an extended (more than 4 button) macro:
+Here's an example of creating an extended (more than 5 button) macro:
 
 ```
 const macro = newMacro()
@@ -50,7 +50,7 @@ const macro = newMacro()
     .delay(50) // Delay for 50 ms
 ```
 
-Now just map the original 4 character macro to your newer, longer macro.  See what's already in my-illicit-macros.ts for fuller examples.
+Now just map the original 5 character macro to your newer, longer macro.  See what's already in my-macros.ts for fuller examples.
 
 ## 3. Run the post-processor
 
@@ -63,7 +63,7 @@ Use the normal QMK/ZSA Wally software to compile and flash.
 
 `qmk compile -kb moonlander -km neo`
 
-If you want Github to build the firmware for you, create repository action secrets `LAYOUT_ID`, set it to the hashId of your layout keymap, as well as `LAYOUT_FOLDER` with the name of the folder of your keymap in the source archive.
+If you want Github to build the firmware for you, create repository action secret `LAYOUT_ID`, set it to the hashId of your layout keymap.
 (Extract it from your ORYX link: `https://configure.zsa.io/moonlander/layouts/<hashId>/latest/0`) then you can use [Github Actions](./.github/workflows/process.yml) to build the firmware for you.
 
 ## Note: Figuring out key codes

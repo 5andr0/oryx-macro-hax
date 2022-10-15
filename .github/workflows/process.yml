@@ -15,7 +15,7 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: 14.x
+          node-version: 16.x
       - name: Install
         run: npm install
       - name: Get ORYX layout
@@ -25,7 +25,7 @@ jobs:
       - name: Compile QMK Firmware from source
         uses: Phoscur/QMK-compile@main
         with:
-          path: layout_src/${{ secrets.LAYOUT_FOLDER }}
+          path: layout_src
           artifacts_path: ${{ github.workspace }}/artifacts
           keymap: custom_macro_enhanced
           keyboard: moonlander
