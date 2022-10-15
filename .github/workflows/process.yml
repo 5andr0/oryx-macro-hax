@@ -30,7 +30,7 @@ jobs:
           keymap: custom_macro_enhanced
           keyboard: moonlander
       - name: Expose compiled firmware binary as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: Firmware Binary
           # Export keyboard_keymap.bin
